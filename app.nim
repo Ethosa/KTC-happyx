@@ -8,4 +8,11 @@ callback:
     echo "Hello from Nim"
 
 
-nativeApp("/assets", resizeable = false, title = "ktc-hpx-native")
+nativeApp(
+  "/assets",
+  resizeable = false,
+  title = "ktc-hpx-native",
+  w = 360,
+  h = 720,
+  port = 15432
+)
