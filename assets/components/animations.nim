@@ -28,6 +28,13 @@ proc TeachersAnimation*(): TagRef = buildHtml:
       tDiv(class = fmt"flex flex-col gap-2 translate-y-[4rem] opacity-0 duration-[{(i+1)*100}ms] transition-all")
 
 
+proc TimetableAnimation*(): TagRef = buildHtml:
+  # Animation for roles
+  tDiv(class = "flex flex-col items-center justify-center translate-y-[2rem] opacity-0 duration-300 transition-all"):
+    for i in 0..<7:
+      tDiv(class = fmt"flex flex-col gap-2 translate-y-[4rem] opacity-0 duration-[{(i+1)*100}ms] transition-all")
+
+
 proc AnimationHolder*(): TagRef =
   buildHtml:
     tDiv(class = ""):
@@ -35,3 +42,4 @@ proc AnimationHolder*(): TagRef =
       ChooseRoleAnimation
       CoursesAnimation
       TeachersAnimation
+      TimetableAnimation

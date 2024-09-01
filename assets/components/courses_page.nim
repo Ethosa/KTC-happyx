@@ -5,15 +5,18 @@ import
   ./animations
 
 
-proc Group*(courseGroup: CourseGroup): TagRef =
+proc Group*(courseGroup: CourseGroup, branchId: int): TagRef =
   buildHtml:
     tDiv(class = fmt"font-semibold select-none cursor-ponter w-fit px-2 py-2 rounded-md bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] transition-all duration-300"):
       { courseGroup.title }
       @click:
-        echo courseGroup.id
+        {.emit: """//js
+        `studentTimetable` = await fetchStudentTimetable(`courseGroup`.id, -1)
+        """.}
+        route("/timetable/" & $branchId & "/student/" & $courseGroup.id)
 
 
-proc Courses*(courses: seq[Course]): TagRef =
+proc Courses*(courses: seq[Course], branchId: int): TagRef =
   buildHtml:
     tDiv(class = "flex flex-col justify-center gap-4 px-4 overflow-x-hidden duration-300 transition-all"):
       BranchAnimation
@@ -26,5 +29,6 @@ proc Courses*(courses: seq[Course]): TagRef =
               { courses[i].course }
             tDiv(class = "flex flex-wrap gap-2"):
               for group in courses[i].groups:
-                Group(group)
+                Group(group, branchId)
       TeachersAnimation
+      TimetableAnimation

@@ -20,7 +20,6 @@ proc BackTo*(path: string): TagRef =
       ArrowLeftAlt(fmt"stroke-[{Fg}]")
       @click:
         if backTo != "":
-          echo "go to ", backTo
           route(backTo)
 
 
@@ -32,5 +31,5 @@ proc HeaderTitle*(title: string): TagRef =
 
 proc Header*(stmt: TagRef): TagRef =
   buildHtml:
-    tDiv(class = fmt"fixed top-0 left-0 right-0 flex gap-4 items-center px-4 py-2 bg-[{Bg}] text-[{Fg}] drop-shadow-xl"):
+    tDiv(class = fmt"fixed top-0 left-0 right-0 flex gap-4 z-50 items-center px-4 py-2 bg-[{Bg}] text-[{Fg}] drop-shadow-xl"):
       stmt

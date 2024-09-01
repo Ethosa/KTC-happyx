@@ -2,15 +2,11 @@ package com.hapticx.ktc.hpx;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
-import androidx.webkit.WebSettingsCompat;
-import androidx.webkit.WebViewFeature;
 
 public class MainActivity extends Activity {
     private WebView w;

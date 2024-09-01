@@ -18,3 +18,4 @@ proc Teachers*(teachers: TeachersList): TagRef =
               { teachers.teachers[i].name }
               @click:
                 echo teachers.teachers[i].id
+      TimetableAnimation

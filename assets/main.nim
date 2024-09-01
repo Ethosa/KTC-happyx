@@ -16,7 +16,8 @@ import
     student_or_teacher_page,
     animations,
     courses_page,
-    teachers_list_page
+    teachers_list_page,
+    student_timetable_page
   ]
 
 
@@ -91,7 +92,7 @@ appRoutes "app":
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваш курс")
-      Courses(courses.val[branchId-1])
+      Courses(courses.val[branchId-1], branchId)
   "/timetable/$branchId:int/teacher":
     PageContainer:
       Navigation()
@@ -99,6 +100,14 @@ appRoutes "app":
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваше имя")
       Teachers(teachersList.val[branchId-1])
+  "/timetable/$branchId:int/student/$groupId:int":
+    PageContainer:
+      Navigation()
+      Header:
+        BackTo("/timetable/" & $branchId & "/student")
+        StudentsHeader
+        # HeaderTitle("Расписание")
+      StudentsTimetable(groupId)
   "/settings":
     PageContainer:
       Navigation()

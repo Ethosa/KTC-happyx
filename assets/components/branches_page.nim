@@ -7,7 +7,7 @@ import
 
 proc Branches*(branches: State[seq[Branch]]): TagRef =
   buildHtml:
-    tDiv(class = "fixed w-screen h-screen flex flex-col justify-center gap-4 px-4 duration-300 transition-all"):
+    tDiv(class = "fixed w-screen top-12 bottom-12 flex flex-col justify-center gap-4 px-4 duration-300 transition-all"):
       tDiv(class = "flex flex-col gap-4 transition-all duration-300"):
         for branch in branches:
           tDiv(
@@ -18,3 +18,4 @@ proc Branches*(branches: State[seq[Branch]]): TagRef =
               route("/timetable/" & $branch.id)
       ChooseRoleAnimation
       TeachersAnimation
+      TimetableAnimation

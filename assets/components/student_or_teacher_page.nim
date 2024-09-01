@@ -7,7 +7,7 @@ import
 
 proc StudentOrTeacher*(branchId: int): TagRef =
   buildHtml:
-    tDiv(class = "fixed w-screen h-screen flex flex-col justify-center items-center gap-4 px-4 duration-300 transition-all"):
+    tDiv(class = "fixed w-screen top-12 bottom-12 flex flex-col justify-center items-center gap-4 px-4 duration-300 transition-all"):
       BranchAnimation
       tDiv(class = "flex flex-col gap-4 items-center justify-center duration-300 transition-all"):
         tDiv(
@@ -24,3 +24,4 @@ proc StudentOrTeacher*(branchId: int): TagRef =
             route("/timetable/" & $branchId & "/teacher")
       CoursesAnimation
       TeachersAnimation
+      TimetableAnimation
