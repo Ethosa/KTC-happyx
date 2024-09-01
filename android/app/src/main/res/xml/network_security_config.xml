@@ -8,5 +8,9 @@
         <domain includeSubdomains="true">mob.kansk-tc.ru</domain>
         <domain includeSubdomains="true">http://mob.kansk-tc.ru</domain>
         <domain includeSubdomains="true">https://mob.kansk-tc.ru</domain>
+        <domain includeSubdomains="true">http://kansk-tc.ru</domain>
+        <domain includeSubdomains="true">https://kansk-tc.ru</domain>
+        <domain includeSubdomains="true">http://www.kansk-tc.ru</domain>
+        <domain includeSubdomains="true">https://www.kansk-tc.ru</domain>
     </domain-config>
 </network-security-config>
