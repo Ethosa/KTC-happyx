@@ -17,3 +17,4 @@ proc Branches*(branches: State[seq[Branch]]): TagRef =
             @click:
               route("/timetable/" & $branch.id)
       ChooseRoleAnimation
+      TeachersAnimation

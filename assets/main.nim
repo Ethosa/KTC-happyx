@@ -14,7 +14,9 @@ import
     page_container,
     branches_page,
     student_or_teacher_page,
-    animations
+    animations,
+    courses_page,
+    teachers_list_page
   ]
 
 
@@ -38,27 +40,26 @@ proc loadData*(lastPage, readedStrotiesStr: cstring, branch: cint) {.exportc.} =
   lastBranch = branch.int
 
 
-proc isPrefetchComplete*(completed: bool) {.exportc.} =
-  {.emit: """//js
-  if (`completed`) {
-    clearTimeout(_t);
-    hpxNative.callNim('loadPrefetchData');
-  }
-  """.}
-
-
-proc loadPrefetchData*(branchesStr, coursesStr, teachersListStr: cstring) {.exportc.} =
-  branches.set(parseJson($branchesStr).to(seq[Branch]))
-  courses.set(parseJson($coursesStr).to(seq[seq[Course]]))
-  teachersList.set(parseJson($teachersListStr).to(seq[TeachersList]))
+proc updateNews*(val: News) {.exportc.} = news.set(val)
+proc updateBranches*(val: seq[Branch]) {.exportc.} =
+  var x = val
+  for i in 0..<x.len:
+    x[i].title = x[i].title
+      .replace("Краевое государственное бюджетное профессиональное образовательное учреждение", "КГБПОУ")
+      .replace("краевого государственного бюджетного профессионального образовательного учреждения", "КГБПОУ")
+  branches.set(x)
+proc updateCourses*(val: seq[seq[Course]]) {.exportc.} = courses.set(val)
+proc updateTeachersList*(val: seq[TeachersList]) {.exportc.} = teachersList.set(val)
 
 
 {.emit: """//js
 hpxNative.callNim("loadAppData")
-const _t = setInterval(() => hpxNative.callNim("isPrefetchComplete"), 100)
-fetchNews().then(news => {
-  `news`.set(news);
-})
+fetchNews().then(x => updateNews(x));
+fetchBranches().then(branches => {
+  updateBranches(branches);
+  fetchCourses(branches).then(x => updateCourses(x));
+  fetchTeachersList(branches).then(x => updateTeachersList(x));
+});
 """.}
 
 
@@ -83,21 +84,21 @@ appRoutes "app":
       Header:
         BackTo("/timetable")
         HeaderTitle("Ваша роль")
-      StudentOrTeacehr(branchId)
+      StudentOrTeacher(branchId)
   "/timetable/$branchId:int/student":
     PageContainer:
       Navigation()
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваш курс")
-      AnimationHolder
+      Courses(courses.val[branchId-1])
   "/timetable/$branchId:int/teacher":
     PageContainer:
       Navigation()
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваше имя")
-      AnimationHolder
+      Teachers(teachersList.val[branchId-1])
   "/settings":
     PageContainer:
       Navigation()

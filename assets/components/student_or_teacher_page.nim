@@ -5,7 +5,7 @@ import
   ./animations
 
 
-proc StudentOrTeacehr*(branchId: int): TagRef =
+proc StudentOrTeacher*(branchId: int): TagRef =
   buildHtml:
     tDiv(class = "fixed w-screen h-screen flex flex-col justify-center items-center gap-4 px-4 duration-300 transition-all"):
       BranchAnimation
@@ -22,3 +22,5 @@ proc StudentOrTeacehr*(branchId: int): TagRef =
           "Я преподаватель"
           @click:
             route("/timetable/" & $branchId & "/teacher")
+      CoursesAnimation
+      TeachersAnimation

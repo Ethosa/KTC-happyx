@@ -18,9 +18,9 @@ proc NavigationItem*(route, title: string, icon: proc(clr: string): TagRef, canS
       tDiv(
         class = "flex flex-col gap-1 items-center px-2 -mt-10 absolute w-fit h-[100px] z-40 rounded-t-full transition-all duration-300 " & (
           if canStartsWith and ($currentRoute).startsWith(route):
-            fmt"drop-shadow-xl bg-[{Bg}] py-2"
+            fmt"bg-[{Bg}] py-2 translate-y-[10px]"
           elif currentRoute == route:
-            fmt"drop-shadow-xl bg-[{Bg}] py-2"
+            fmt"bg-[{Bg}] py-2 translate-y-[10px]"
           else:
             "py-0 translate-y-[40px]"
         )
@@ -33,7 +33,7 @@ proc NavigationItem*(route, title: string, icon: proc(clr: string): TagRef, canS
           else:
             fmt"stroke-[{Fg}]"
         )
-        tSpan(class = fmt"transition-all duration-300 text-lg text-[{Primary}] " & (
+        tSpan(class = fmt"transition-all duration-300 text-sm text-[{Primary}] " & (
           if canStartsWith and ($currentRoute).startsWith(route):
             ""
           elif currentRoute == route:

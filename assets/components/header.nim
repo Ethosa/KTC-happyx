@@ -32,5 +32,5 @@ proc HeaderTitle*(title: string): TagRef =
 
 proc Header*(stmt: TagRef): TagRef =
   buildHtml:
-    tDiv(class = fmt"flex gap-4 items-center w-full h-full px-4 py-2 bg-[{Bg}] text-[{Fg}] drop-shadow-xl"):
+    tDiv(class = fmt"fixed top-0 left-0 right-0 flex gap-4 items-center px-4 py-2 bg-[{Bg}] text-[{Fg}] drop-shadow-xl"):
       stmt
