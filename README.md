@@ -1,10 +1,9 @@
-# ktc-hpx-native
-### made with HappyX Native with ❤
+# Приложение для Канского технологического колледжа
+### Написано на HappyX Native ⚡
 
-## Get Started 👨‍🔬
 
-Main frontend file is `/assets/main.nim`. It compiles into JS.
-This files includes into `/assets/index.html`.
+Основной файл приложения `/assets/main.nim`. Он компилируется в JS.
+Этот файл используется в `/assets/index.html`.
 
-Main file is `app.nim`. It compiles into C/C++.
+Основной серверный файл - `app.nim`. Он компилируется в C/C++.
 

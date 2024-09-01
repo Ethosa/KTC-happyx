@@ -21,6 +21,9 @@ type
     name*: string
     id*: string
   
+  TeachersList* = object
+    teachers*: seq[Teacher]
+  
   TeacherLesson* = object
     number*: string
     classroom*: string
