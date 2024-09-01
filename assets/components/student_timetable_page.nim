@@ -5,23 +5,35 @@ import
   ./animations
 
 
-proc StudentsHeader*(): TagRef =
+proc getGroup*(branchId, groupId: int): CourseGroup =
+  result = CourseGroup()
+  var c = courses.val[branchId-1]
+  for groups in c:
+    for group in groups.groups:
+      if group.id == groupId:
+        return group
+
+
+proc StudentsHeader*(branchId, groupId: int): TagRef =
   buildHtml:
-    tDiv(class = "font-bold text-3xl"):
-      { studentTimetable.weekNumber }
-      " неделя"
+    tDiv(class = "flex flex-col -mt-1 -mb-1"):
+      tDiv(class = "font-bold text-xl"):
+        { studentTimetable.weekNumber }
+        " неделя"
+      tDiv(class = "font-medium opacity-80 text-sm"):
+        { getGroup(branchId, groupId).title }
 
 
 proc StudentsTimetable*(groupId: int, week: int = -1): TagRef =
   buildHtml:
-    tDiv(class = "-mt-10 flex flex-col justify-center gap-4 px-4 overflow-x-hidden duration-300 transition-all overflow-y-hidden"):
+    tDiv(class = "-mt-10 flex flex-col justify-center gap-4 px-4 overflow-x-hidden duration-300 transition-all"):
       BranchAnimation
       ChooseRoleAnimation
       CoursesAnimation
       TeachersAnimation
-      tDiv(class = fmt"flex flex-col gap-4 h-[calc(100vh-6.2rem)] divide-y divide-[{Fg}50] snap-y overflow-y-scroll"):
+      tDiv(class = fmt"flex flex-col gap-4 divide-y divide-[{Fg}50]"):
         for i in studentTimetable.days:
-          tDiv(class = "snap-center flex flex-col gap-2 py-4"):
+          tDiv(class = "flex flex-col gap-2 py-4"):
             tDiv(class = "flex justify-between w-full"):
               tDiv(class = fmt"text-nowrap font-semibold text-lg text-[{Primary}]"):
                 { i.title }

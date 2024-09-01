@@ -2,12 +2,21 @@ import
   happyx,
   std/times,
   std/math,
+  std/json,
   ../types
 
 
 var
   stories* = remember newSeq[Announce]()
   studentTimetable*: StudentTimetable
+  teacherTimetable*: TeacherTimetable
+  readedStories*: JsonNode = newJArray()
+  teachersList* = remember newSeq[TeachersList]()
+  branches* = remember newSeq[Branch]()
+  courses* = remember newSeq[seq[Course]]()
+  news* = remember News()
+  prefetchComplete* = false
+  lastBranch*: int = 0
 
 
 proc countStudentHours(lessons: seq[StudentLesson]): int =

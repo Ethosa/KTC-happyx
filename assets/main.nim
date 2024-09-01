@@ -17,31 +17,27 @@ import
     animations,
     courses_page,
     teachers_list_page,
-    student_timetable_page
+    student_timetable_page,
+    teacher_timetable_page,
+    news_page
   ]
 
 
 # Object for working with HappyX Native
 var
   hpxNative {.importc, nodecl.}: JsObject
-  readedStories: JsonNode = newJArray()
-  teachersList = remember newSeq[TeachersList]()
-  branches = remember newSeq[Branch]()
-  courses = remember newSeq[seq[Course]]()
-  news = remember News()
-  prefetchComplete = false
-  lastBranch: int = 0
 
 
 proc loadData*(lastPage, readedStrotiesStr: cstring, branch: cint) {.exportc.} =
   {.emit: """//js
-  window.addEventListener('load', rt(`lastPage`));
+  rt(`lastPage`);
   """.}
   readedStories = parseJson($readedStrotiesStr)
   lastBranch = branch.int
 
 
-proc updateNews*(val: News) {.exportc.} = news.set(val)
+proc updateNews*(val: News) {.exportc.} =
+  news.set(val)
 proc updateBranches*(val: seq[Branch]) {.exportc.} =
   var x = val
   for i in 0..<x.len:
@@ -49,18 +45,24 @@ proc updateBranches*(val: seq[Branch]) {.exportc.} =
       .replace("Краевое государственное бюджетное профессиональное образовательное учреждение", "КГБПОУ")
       .replace("краевого государственного бюджетного профессионального образовательного учреждения", "КГБПОУ")
   branches.set(x)
-proc updateCourses*(val: seq[seq[Course]]) {.exportc.} = courses.set(val)
-proc updateTeachersList*(val: seq[TeachersList]) {.exportc.} = teachersList.set(val)
+proc updateCourses*(val: seq[seq[Course]]) {.exportc.} =
+  courses.set(val)
+proc updateTeachersList*(val: seq[TeachersList]) {.exportc.} =
+  teachersList.set(val)
 
 
 {.emit: """//js
-hpxNative.callNim("loadAppData")
-fetchNews().then(x => updateNews(x));
-fetchBranches().then(branches => {
-  updateBranches(branches);
-  fetchCourses(branches).then(x => updateCourses(x));
-  fetchTeachersList(branches).then(x => updateTeachersList(x));
-});
+window.addEventListener('load', () => {
+  fetchBranches().then(branches => {
+    updateBranches(branches);
+    fetchCourses(branches).then(x => updateCourses(x));
+    fetchTeachersList(branches).then(x => updateTeachersList(x));
+  });
+  fetchNews().then(x => {
+    updateNews(x);
+    hpxNative.callNim("loadAppData");
+  });
+})
 """.}
 
 
@@ -71,7 +73,7 @@ appRoutes "app":
       Header:
         BackTo("")
         HeaderTitle("Главная")
-      AnimationHolder
+      NewsPage
   "/timetable":
     PageContainer:
       Navigation()
@@ -99,15 +101,23 @@ appRoutes "app":
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваше имя")
-      Teachers(teachersList.val[branchId-1])
+      Teachers(teachersList.val[branchId-1], branchId)
   "/timetable/$branchId:int/student/$groupId:int":
     PageContainer:
       Navigation()
       Header:
         BackTo("/timetable/" & $branchId & "/student")
-        StudentsHeader
+        StudentsHeader(branchId, groupId)
         # HeaderTitle("Расписание")
       StudentsTimetable(groupId)
+  "/timetable/$branchId:int/teacher/$teacherId:int":
+    PageContainer:
+      Navigation()
+      Header:
+        BackTo("/timetable/" & $branchId & "/teacher")
+        TeachersHeader(branchId, teacherId)
+        # HeaderTitle("Расписание")
+      TeachersTimetable(teacherId)
   "/settings":
     PageContainer:
       Navigation()

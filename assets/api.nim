@@ -70,3 +70,14 @@ proc fetchStudentTimetable*(groupId: cint, week: cint = -1): Future[StudentTimet
   if data.len > 0:
     return parseJson($data).to(StudentTimetable)
   return StudentTimetable()
+
+
+proc fetchTeacherTimetable*(branchId: cint, teacherId: cstring): Future[TeacherTimetable] {.async, exportc.} =
+  var data: cstring
+  {.emit: """//js
+  const response = await fetch(`API_URL` + '/ktc-api/teacher-timetable/' + String(`branchId`) + '/' + String(`teacherId`));
+  `data` = await response.text();
+  """.}
+  if data.len > 0:
+    return parseJson($data).to(TeacherTimetable)
+  return TeacherTimetable()

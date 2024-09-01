@@ -63,3 +63,4 @@ type
   
   News* = object
     announce*: seq[Announce]
+    news*: seq[Announce]

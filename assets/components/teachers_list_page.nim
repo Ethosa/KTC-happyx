@@ -5,7 +5,7 @@ import
   ./animations
 
 
-proc Teachers*(teachers: TeachersList): TagRef =
+proc Teachers*(teachers: TeachersList, branchId: int): TagRef =
   buildHtml:
     tDiv(class = fmt"flex flex-col justify-center gap-4 px-4 pb-8 overflow-x-hidden duration-300 transition-all"):
       BranchAnimation
@@ -17,5 +17,10 @@ proc Teachers*(teachers: TeachersList): TagRef =
             tDiv(class = fmt"font-semibold select-none cursor-ponter w-fit px-2 py-2 rounded-md bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] transition-all duration-300"):
               { teachers.teachers[i].name }
               @click:
-                echo teachers.teachers[i].id
+                let id: cstring = teachers.teachers[i].id
+                let b: cint = branchId
+                {.emit: """//js
+                `teacherTimetable` = await fetchTeacherTimetable(`b`, `id`)
+                """.}
+                route("/timetable/" & $branchId & "/teacher/" & $teachers.teachers[i].id)
       TimetableAnimation
