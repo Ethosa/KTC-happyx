@@ -19,40 +19,26 @@ import
     teachers_list_page,
     student_timetable_page,
     teacher_timetable_page,
-    news_page
+    news_page,
+    announcement_page,
+    settings_page
   ]
 
 
-# Object for working with HappyX Native
-var
-  hpxNative {.importc, nodecl.}: JsObject
-
-
-proc loadData*(lastPage, readedStrotiesStr: cstring, branch: cint) {.exportc.} =
+proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: cstring) {.exportc.} =
+  lastBranch.val = branch.int
+  useBlur.val = useBlurVal
+  appTheme.val = $appThemeVal
+  saveLoaded = true
   {.emit: """//js
   rt(`lastPage`);
   """.}
-  readedStories = parseJson($readedStrotiesStr)
-  lastBranch = branch.int
-
-
-proc updateNews*(val: News) {.exportc.} =
-  news.set(val)
-proc updateBranches*(val: seq[Branch]) {.exportc.} =
-  var x = val
-  for i in 0..<x.len:
-    x[i].title = x[i].title
-      .replace("Краевое государственное бюджетное профессиональное образовательное учреждение", "КГБПОУ")
-      .replace("краевого государственного бюджетного профессионального образовательного учреждения", "КГБПОУ")
-  branches.set(x)
-proc updateCourses*(val: seq[seq[Course]]) {.exportc.} =
-  courses.set(val)
-proc updateTeachersList*(val: seq[TeachersList]) {.exportc.} =
-  teachersList.set(val)
+  changeTheme($appThemeVal)
 
 
 {.emit: """//js
 window.addEventListener('load', () => {
+  hpxNative.callNim("loadAppData");
   fetchBranches().then(branches => {
     updateBranches(branches);
     fetchCourses(branches).then(x => updateCourses(x));
@@ -60,7 +46,6 @@ window.addEventListener('load', () => {
   });
   fetchNews().then(x => {
     updateNews(x);
-    hpxNative.callNim("loadAppData");
   });
 })
 """.}
@@ -74,6 +59,13 @@ appRoutes "app":
         BackTo("")
         HeaderTitle("Главная")
       NewsPage
+  "/news/id{id:int}":
+    PageContainer:
+      Navigation()
+      Header:
+        BackTo("/")
+        HeaderTitle("Главная")
+      AnnouncementPage
   "/timetable":
     PageContainer:
       Navigation()
@@ -124,4 +116,4 @@ appRoutes "app":
       Header:
         BackTo("")
         HeaderTitle("Настройки")
-      AnimationHolder
+      SettingsPage

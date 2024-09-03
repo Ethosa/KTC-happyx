@@ -81,3 +81,14 @@ proc fetchTeacherTimetable*(branchId: cint, teacherId: cstring): Future[TeacherT
   if data.len > 0:
     return parseJson($data).to(TeacherTimetable)
   return TeacherTimetable()
+
+
+proc fetchNewsById*(newsId: cint): Future[Announce] {.async, exportc.} =
+  var data: cstring
+  {.emit: """//js
+  const response = await fetch(`API_URL` + '/ktc-api/news/id' + String(`newsId`));
+  `data` = await response.text();
+  """.}
+  if data.len > 0:
+    return parseJson($data).to(Announce)
+  return Announce()

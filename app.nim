@@ -6,8 +6,9 @@ import
 
 var
   lastPage = "/"
-  readedStories: JsonNode = newJArray()
+  useBlur: bool = false
   lastBranch = 0
+  appTheme = "dark"
 
 
 callback:
@@ -15,10 +16,23 @@ callback:
   proc loadAppData() =
     lastPage = loadString("hapticx.ktc_hpx.lastPage")
     lastBranch = loadInt("hapticx.ktc_hpx.lastBranch")
-    let readedStoriesStr = loadString("hapticx.ktc_hpx.readedStories")
-    if readedStoriesStr.len > 0:
-      readedStories = parseJson(readedStoriesStr)
-    callJs("loadData", lastPage, $readedStories, lastBranch)
+    useBlur = loadBool("hapticx.ktc_hpx.useBlur")
+    appTheme = loadString("hapticx.ktc_hpx.appTheme")
+    if appTheme == "":
+      appTheme = "dark"
+    callJs("loadData", lastPage, lastBranch, useBlur, appTheme)
+  
+  proc saveLastPage(val: string) =
+    save("hapticx.ktc_hpx.lastPage", val)
+  
+  proc saveLastBranch(val: int) =
+    save("hapticx.ktc_hpx.lastBranch", val)
+  
+  proc saveUseBlur(val: bool) =
+    save("hapticx.ktc_hpx.useBlur", val)
+  
+  proc saveAppTheme(val: string) =
+    save("hapticx.ktc_hpx.appTheme", val)
 
 
 nativeApp(

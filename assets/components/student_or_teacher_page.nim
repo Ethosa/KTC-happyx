@@ -25,3 +25,4 @@ proc StudentOrTeacher*(branchId: int): TagRef =
       CoursesAnimation
       TeachersAnimation
       TimetableAnimation
+      AnnouncementAnimation

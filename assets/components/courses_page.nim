@@ -11,7 +11,9 @@ proc Group*(courseGroup: CourseGroup, branchId: int): TagRef =
       { courseGroup.title }
       @click:
         {.emit: """//js
-        `studentTimetable` = await fetchStudentTimetable(`courseGroup`.id, -1)
+        fetchStudentTimetable(`courseGroup`.id, -1).then(res => {
+          `updateStudentTimetable`(res);
+        });
         """.}
         route("/timetable/" & $branchId & "/student/" & $courseGroup.id)
 
@@ -32,3 +34,4 @@ proc Courses*(courses: seq[Course], branchId: int): TagRef =
                 Group(group, branchId)
       TeachersAnimation
       TimetableAnimation
+      AnnouncementAnimation

@@ -5,6 +5,8 @@ import
 
 
 proc PageContainer*(stmt: TagRef): TagRef =
+  if saveLoaded:
+    hpxNative.callNim("saveLastPage", $currentRoute)
   buildHtml:
     tDiv(class = fmt"pb-12 pt-6 w-screen min-h-screen overflow-x-hidden overflow-y-auto h-full bg-[{BgMain}] text-[{Fg}]"):
       stmt

@@ -19,3 +19,4 @@ proc Branches*(branches: State[seq[Branch]]): TagRef =
       ChooseRoleAnimation
       TeachersAnimation
       TimetableAnimation
+      AnnouncementAnimation

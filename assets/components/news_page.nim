@@ -19,7 +19,7 @@ proc NewsPage*(): TagRef =
       else:
         tDiv(class = fmt"flex flex-col gap-4 p-4 duration-300 transition-all "):
           for i in news.val.announce:
-            tDiv(class = fmt"flex flex-col gap-2 bg-[{Bg}] rounded-md"):
+            tDiv(class = fmt"cursor-pointer flex flex-col gap-2 bg-[{Bg}] rounded-md"):
               tImg(class = "rounded-t-md", src = i.image, loading = "lazy", decoding = "async")
               tDiv(class = "flex flex-col px-4"):
                 tDiv(class = fmt"text-lg font-semibold text-[{Primary}]"):
@@ -28,8 +28,15 @@ proc NewsPage*(): TagRef =
                   { i.date }
               tDiv(class = "px-4 pb-4"):
                 { i.body }
+              # @click:
+              #   {.emit: """//js
+              #   fetchNewsById(`i`.id).then(res => {
+              #     `updateAnnounce`(res);
+              #   });
+              #   """.}
+              #   route("/news/id" & $i.id)
           for i in news.val.news:
-            tDiv(class = fmt"flex flex-col gap-2 bg-[{Bg}] rounded-md"):
+            tDiv(class = fmt"cursor-pointer flex flex-col gap-2 bg-[{Bg}] rounded-md"):
               tImg(class = "rounded-t-md", src = i.image, loading = "lazy", decoding = "async")
               tDiv(class = "flex flex-col px-4"):
                 tDiv(class = fmt"text-lg font-semibold text-[{Primary}]"):
@@ -38,3 +45,11 @@ proc NewsPage*(): TagRef =
                   { i.date }
               tDiv(class = "px-4 pb-4"):
                 { i.body }
+              # @click:
+              #   {.emit: """//js
+              #   fetchNewsById(`i`.id).then(res => {
+              #     `updateAnnounce`(res);
+              #   });
+              #   """.}
+              #   route("/news/id" & $i.id)
+      AnnouncementAnimation

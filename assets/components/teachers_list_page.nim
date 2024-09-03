@@ -20,7 +20,10 @@ proc Teachers*(teachers: TeachersList, branchId: int): TagRef =
                 let id: cstring = teachers.teachers[i].id
                 let b: cint = branchId
                 {.emit: """//js
-                `teacherTimetable` = await fetchTeacherTimetable(`b`, `id`)
+                fetchTeacherTimetable(`b`, `id`).then(res => {
+                  `updateTeacherTimetable`(res);
+                });
                 """.}
                 route("/timetable/" & $branchId & "/teacher/" & $teachers.teachers[i].id)
       TimetableAnimation
+      AnnouncementAnimation

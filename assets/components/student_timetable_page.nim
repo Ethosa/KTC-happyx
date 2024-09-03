@@ -18,7 +18,7 @@ proc StudentsHeader*(branchId, groupId: int): TagRef =
   buildHtml:
     tDiv(class = "flex flex-col -mt-1 -mb-1"):
       tDiv(class = "font-bold text-xl"):
-        { studentTimetable.weekNumber }
+        { studentTimetable.val.weekNumber }
         " неделя"
       tDiv(class = "font-medium opacity-80 text-sm"):
         { getGroup(branchId, groupId).title }
@@ -32,7 +32,7 @@ proc StudentsTimetable*(groupId: int, week: int = -1): TagRef =
       CoursesAnimation
       TeachersAnimation
       tDiv(class = fmt"flex flex-col gap-4 divide-y divide-[{Fg}50]"):
-        for i in studentTimetable.days:
+        for i in studentTimetable.val.days:
           tDiv(class = "flex flex-col gap-2 py-4"):
             tDiv(class = "flex justify-between w-full"):
               tDiv(class = fmt"text-nowrap font-semibold text-lg text-[{Primary}]"):

@@ -28,7 +28,7 @@ proc TeachersHeader*(branchId, teacherId: int): TagRef =
             x[i] = $cstr & "."
         { x.join(" ") }
       tDiv(class = "font-medium opacity-80 text-sm"):
-        { teacherTimetable.title.replace("расписание на ", "") }
+        { teacherTimetable.val.title.replace("расписание на ", "") }
 
 
 proc TeachersTimetable*(teacherId: int): TagRef =
@@ -39,7 +39,7 @@ proc TeachersTimetable*(teacherId: int): TagRef =
       CoursesAnimation
       TeachersAnimation
       tDiv(class = fmt"flex flex-col gap-4 divide-y divide-[{Fg}50]"):
-        for i in teacherTimetable.week:
+        for i in teacherTimetable.val.week:
           if i.title != "":
             tDiv(class = "flex flex-col gap-2 py-4"):
               tDiv(class = "flex justify-between w-full"):
@@ -59,3 +59,4 @@ proc TeachersTimetable*(teacherId: int): TagRef =
                           { lesson.group }
                       tDiv(class = "flex h-full items-center justify-end h-full w-1/6 text-right"):
                         { lesson.classroom }
+      AnnouncementAnimation
