@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
         super.onCreate(s);
         setContentView(R.layout.activity_main);
 
+        getActionBar().hide();
         w = findViewById(R.id.webView);
 
         if (!paused) {
