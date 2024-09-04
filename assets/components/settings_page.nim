@@ -10,8 +10,11 @@ import
 var themes = @[
   ("dark", "Темная"),
   ("dark-red", "Темно-красная"),
+  ("dark-purple", "Темно-бардовая"),
   ("pastel-blue", "Синяя пастель"),
   ("hacking", "Хакер"),
+  ("simple-green", "Простая зеленая"),
+  ("simple-blue", "Простая синяя"),
 ]
 
 

@@ -11,9 +11,10 @@ var
   appTheme = "dark"
 
 
-jclass com.hapticx.ktc.hpx.MainActivity of Activity:
-  proc setAppColor*(color: jint)
-  proc setAppColor*(color: jint, isLight: jboolean)
+when defined(export2android):
+  jclass com.hapticx.ktc.hpx.MainActivity of Activity:
+    proc setAppColor*(color: jint)
+    proc setAppColor*(color: jint, isLight: jboolean)
 
 
 callback:
@@ -29,7 +30,6 @@ callback:
     {.gcsafe.}:
       when defined(export2android):
         runOnUiThread:
-          Log.d("run on UI thread Hello (load data)")
           case appTheme:
             of "dark":
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#191718"), JVM_FALSE)
@@ -39,8 +39,10 @@ callback:
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#cef5fa"), JVM_TRUE)
             of "hacking":
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#0a0801"), JVM_FALSE)
-          Log.d(".. ok")
-        Log.d($uniqueCodeBlocks)
+            of "dark-purple":
+              cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#250c1d"), JVM_FALSE)
+            of "simple-blue", "simple-green":
+              cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#ffffff"), JVM_TRUE)
   
   proc saveLastPage(val: string) =
     save("hapticx.ktc_hpx.lastPage", val)
@@ -56,9 +58,7 @@ callback:
     save("hapticx.ktc_hpx.appTheme", val)
     {.gcsafe.}:
       when defined(export2android):
-        Log.d("Hello")
         runOnUiThread:
-          Log.d("run on UI thread Hello")
           case appTheme:
             of "dark":
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#191718"), JVM_FALSE)
@@ -68,7 +68,10 @@ callback:
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#cef5fa"), JVM_TRUE)
             of "hacking":
               cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#0a0801"), JVM_FALSE)
-        Log.d($uniqueCodeBlocks)
+            of "dark-purple":
+              cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#250c1d"), JVM_FALSE)
+            of "simple-blue", "simple-green":
+              cast[MainActivity](appContext).setAppColor(AndroidColor.parseColor("#ffffff"), JVM_TRUE)
 
 
 nativeApp(

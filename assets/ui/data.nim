@@ -37,6 +37,12 @@ proc changeTheme*(val: string) =
       Primary.val = "#f44336"
       Secondary.val = "#d32f2f"
       Fg.set("#f1dcc1")
+    of "dark-purple":
+      Bg.val = "#250c1d"
+      BgMain.val = "#351c2d"
+      Primary.val = "#e3c022"
+      Secondary.val = "#ae9f93"
+      Fg.set("#f8f9f9")
     of "pastel-blue":
       Bg.val = "#cef5fa"
       BgMain.val = "#aed5da"
@@ -49,6 +55,18 @@ proc changeTheme*(val: string) =
       Primary.val = "#9bd74d"
       Secondary.val = "#9bd74d"
       Fg.set("#aaf323")
+    of "simple-green":
+      Bg.val = "#ffffff"
+      BgMain.val = "#cecece"
+      Primary.val = "#3cd359"
+      Secondary.val = "#007919"
+      Fg.set("#0e0701")
+    of "simple-blue":
+      Bg.val = "#ffffff"
+      BgMain.val = "#cecece"
+      Primary.val = "#1867f9"
+      Secondary.val = "#7372ff"
+      Fg.set("#040000")
 
 
 appTheme.watch(oldVal, newVal):
