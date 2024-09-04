@@ -30,6 +30,7 @@ proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: c
   useBlur.val = useBlurVal
   appTheme.val = $appThemeVal
   saveLoaded = true
+  echo "LOADED DATA: ", lastPage, ", ", branch, ", ", useBlurVal, ", ", appThemeVal
   {.emit: """//js
   rt(`lastPage`);
   """.}
@@ -38,7 +39,9 @@ proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: c
 
 {.emit: """//js
 window.addEventListener('load', () => {
+  console.log("TRY TO LOAD DATA ...")
   hpxNative.callNim("loadAppData");
+  console.log("OK ...")
   fetchBranches().then(branches => {
     updateBranches(branches);
     fetchCourses(branches).then(x => updateCourses(x));

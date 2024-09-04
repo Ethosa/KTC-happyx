@@ -16,14 +16,16 @@ public class Native {
     private final Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            activity.runOnUiThread(() -> runOnUi(activity));
-            handler.postDelayed(runnable, 100);
+            activity.runOnUiThread(() -> {
+                runOnUi(activity);
+                handler.postDelayed(runnable, 100);
+            });
         }
     };
 
     // need to called from other thread
-    public static native void start(Context ctx);
-    public static native void runOnUi(Context ctx);
+    public static native void start(Activity ctx);
+    public static native void runOnUi(Activity ctx);
 
     public Native(Activity activity) {
         this.activity = activity;

@@ -7,6 +7,13 @@ import
 
 proc getTeacherName*(branchId, teacherId: int): Teacher =
   result = Teacher()
+  if teachersList.val.len == 0:
+    {.emit: """//js
+    fetchTeacherTimetable(`branchId`, `teacherId`).then(res => {
+      `updateTeacherTimetable`(res);
+    });
+    """.}
+    return result
   var c = teachersList.val[branchId-1]
   for teacher in c.teachers:
     if teacher.id == $teacherId:

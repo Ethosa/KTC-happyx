@@ -54,7 +54,8 @@ proc changeTheme*(val: string) =
 appTheme.watch(oldVal, newVal):
   if newVal == oldVal:
     return
-  hpxNative.callNim("saveAppTheme", newVal)
+  var val: cstring = cstring newVal
+  hpxNative.callNim("saveAppTheme", val)
   changeTheme(newVal)
 
 

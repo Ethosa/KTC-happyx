@@ -7,6 +7,12 @@ import
 
 proc getGroup*(branchId, groupId: int): CourseGroup =
   result = CourseGroup()
+  if courses.len == 0:
+    {.emit: """//js
+    fetchStudentTimetable(`groupId`, -1).then(res => {
+      `updateStudentTimetable`(res);
+    });
+    """.}
   var c = courses.val[branchId-1]
   for groups in c:
     for group in groups.groups:
