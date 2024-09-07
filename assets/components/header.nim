@@ -20,12 +20,14 @@ proc BackTo*(path: string): TagRef =
       ArrowLeftAlt(fmt"stroke-[{Fg}]")
       @click:
         if backTo != "":
+          showSearchForm.val = false
+          search.val = ""
           route(backTo)
 
 
 proc HeaderTitle*(title: string): TagRef =
   result = buildHtml:
-    tDiv(class = fmt"font-bold text-3xl select-none"):
+    tDiv(class = fmt"font-bold text-3xl select-none text-nowrap"):
       { title }
 
 

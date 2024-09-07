@@ -15,12 +15,16 @@ proc StudentOrTeacher*(branchId: int): TagRef =
         ):
           "Я студент"
           @click:
+            showSearchForm.val = false
+            search.val = ""
             route("/timetable/" & $branchId & "/student")
         tDiv(
           class = fmt"w-fit px-4 py-2 font-semibold select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] rounded-lg transition-all duration-300"
         ):
           "Я преподаватель"
           @click:
+            showSearchForm.val = false
+            search.val = ""
             route("/timetable/" & $branchId & "/teacher")
       CoursesAnimation
       TeachersAnimation

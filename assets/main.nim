@@ -21,7 +21,8 @@ import
     teacher_timetable_page,
     news_page,
     announcement_page,
-    settings_page
+    settings_page,
+    search_form
   ]
 
 
@@ -30,7 +31,6 @@ proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: c
   useBlur.val = useBlurVal
   appTheme.val = $appThemeVal
   saveLoaded = true
-  echo "LOADED DATA: ", lastPage, ", ", branch, ", ", useBlurVal, ", ", appThemeVal
   {.emit: """//js
   rt(`lastPage`);
   """.}
@@ -39,9 +39,7 @@ proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: c
 
 {.emit: """//js
 window.addEventListener('load', () => {
-  console.log("TRY TO LOAD DATA ...")
   hpxNative.callNim("loadAppData");
-  console.log("OK ...")
   fetchBranches().then(branches => {
     updateBranches(branches);
     fetchCourses(branches).then(x => updateCourses(x));
@@ -89,14 +87,20 @@ appRoutes "app":
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваш курс")
-      Courses(courses.val[branchId-1], branchId)
+        tDiv(class = "w-full h-full flex justify-end items-center"):
+          SearchForm
+      Courses(branchId)
+      SearchHolder("Найти группу")
   "/timetable/$branchId:int/teacher":
     PageContainer:
       Navigation()
       Header:
         BackTo("/timetable/" & $branchId)
         HeaderTitle("Ваше имя")
-      Teachers(teachersList.val[branchId-1], branchId)
+        tDiv(class = "w-full h-full flex justify-end items-center"):
+          SearchForm
+      Teachers(branchId)
+      SearchHolder("Найти преподавателя")
   "/timetable/$branchId:int/student/$groupId:int":
     PageContainer:
       Navigation()

@@ -21,6 +21,8 @@ var
   useBlur* = remember false
   appTheme* = remember "dark"
   saveLoaded* = false
+  search* = remember ""
+  showSearchForm* = remember false
 
 
 proc changeTheme*(val: string) =
