@@ -22,15 +22,27 @@ import
     news_page,
     announcement_page,
     settings_page,
-    search_form
+    search_form,
+    styles
   ]
 
 
-proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal: cstring) {.exportc.} =
+proc loadData*(lastPage: cstring, branch: cint, useBlurVal: bool, appThemeVal, roundedSizeVal: cstring) {.exportc.} =
   lastBranch.val = branch.int
   useBlur.val = useBlurVal
   appTheme.val = $appThemeVal
   saveLoaded = true
+  # Rounded
+  roundedSize.val = $roundedSizeVal
+  let newSize = ($roundedSizeVal).split("-")[^1]
+  roundedL = "rounded-l-" & newSize
+  roundedR = "rounded-r-" & newSize
+  roundedB = "rounded-b-" & newSize
+  roundedT = "rounded-t-" & newSize
+  roundedTL = "rounded-tl-" & newSize
+  roundedTR = "rounded-tr-" & newSize
+  roundedBL = "rounded-bl-" & newSize
+  roundedBR = "rounded-br-" & newSize
   {.emit: """//js
   rt(`lastPage`);
   """.}
@@ -60,6 +72,7 @@ appRoutes "app":
         BackTo("")
         HeaderTitle("Главная")
       NewsPage
+    Styles
   "/news/id{id:int}":
     PageContainer:
       Navigation()
@@ -67,6 +80,7 @@ appRoutes "app":
         BackTo("/")
         HeaderTitle("Главная")
       AnnouncementPage
+    Styles
   "/timetable":
     PageContainer:
       Navigation()
@@ -74,6 +88,7 @@ appRoutes "app":
         BackTo("")
         HeaderTitle("Расписание")
       Branches(branches)
+    Styles
   "/timetable/$branchId:int":
     PageContainer:
       Navigation()
@@ -81,6 +96,7 @@ appRoutes "app":
         BackTo("/timetable")
         HeaderTitle("Ваша роль")
       StudentOrTeacher(branchId)
+    Styles
   "/timetable/$branchId:int/student":
     PageContainer:
       Navigation()
@@ -91,6 +107,7 @@ appRoutes "app":
           SearchForm
       Courses(branchId)
       SearchHolder("Найти группу")
+    Styles
   "/timetable/$branchId:int/teacher":
     PageContainer:
       Navigation()
@@ -101,6 +118,7 @@ appRoutes "app":
           SearchForm
       Teachers(branchId)
       SearchHolder("Найти преподавателя")
+    Styles
   "/timetable/$branchId:int/student/$groupId:int":
     PageContainer:
       Navigation()
@@ -109,6 +127,7 @@ appRoutes "app":
         StudentsHeader(branchId, groupId)
         # HeaderTitle("Расписание")
       StudentsTimetable(groupId)
+    Styles
   "/timetable/$branchId:int/teacher/$teacherId:int":
     PageContainer:
       Navigation()
@@ -117,6 +136,7 @@ appRoutes "app":
         TeachersHeader(branchId, teacherId)
         # HeaderTitle("Расписание")
       TeachersTimetable(teacherId)
+    Styles
   "/settings":
     PageContainer:
       Navigation()
@@ -124,3 +144,4 @@ appRoutes "app":
         BackTo("")
         HeaderTitle("Настройки")
       SettingsPage
+    Styles

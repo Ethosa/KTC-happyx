@@ -11,7 +11,7 @@ proc StudentOrTeacher*(branchId: int): TagRef =
       BranchAnimation
       tDiv(class = "flex flex-col gap-4 items-center justify-center duration-300 transition-all"):
         tDiv(
-          class = fmt"w-fit px-4 py-2 font-semibold select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] rounded-lg transition-all duration-300"
+          class = fmt"w-fit px-4 py-2 font-semibold select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] {roundedSize} transition-all duration-300"
         ):
           "Я студент"
           @click:
@@ -19,7 +19,7 @@ proc StudentOrTeacher*(branchId: int): TagRef =
             search.val = ""
             route("/timetable/" & $branchId & "/student")
         tDiv(
-          class = fmt"w-fit px-4 py-2 font-semibold select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] rounded-lg transition-all duration-300"
+          class = fmt"w-fit px-4 py-2 font-semibold select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] {roundedSize} transition-all duration-300"
         ):
           "Я преподаватель"
           @click:

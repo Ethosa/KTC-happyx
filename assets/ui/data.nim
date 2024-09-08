@@ -20,9 +20,18 @@ var
   lastBranch* = remember 0
   useBlur* = remember false
   appTheme* = remember "dark"
+  roundedSize* = remember "rounded-md"
   saveLoaded* = false
   search* = remember ""
   showSearchForm* = remember false
+  roundedL* = "rounded-l-md"
+  roundedR* = "rounded-r-md"
+  roundedB* = "rounded-b-md"
+  roundedT* = "rounded-t-md"
+  roundedTL* = "rounded-tl-md"
+  roundedTR* = "rounded-tr-md"
+  roundedBL* = "rounded-bl-md"
+  roundedBR* = "rounded-br-md"
 
 
 proc changeTheme*(val: string) =
@@ -85,6 +94,19 @@ useBlur.watch(oldVal, newVal):
 
 lastBranch.watch(oldVal, newVal):
   hpxNative.callNim("saveLastBranch", newVal)
+
+
+roundedSize.watch(oldVal, newVal):
+  let newSize = newVal.split("-")[^1]
+  roundedL = "rounded-l-" & newSize
+  roundedR = "rounded-r-" & newSize
+  roundedB = "rounded-b-" & newSize
+  roundedT = "rounded-t-" & newSize
+  roundedTL = "rounded-tl-" & newSize
+  roundedTR = "rounded-tr-" & newSize
+  roundedBL = "rounded-bl-" & newSize
+  roundedBR = "rounded-br-" & newSize
+  hpxNative.callNim("saveRoundedSize", newVal)
 
 
 proc updateStudentTimetable*(val: StudentTimetable) =

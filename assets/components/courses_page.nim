@@ -7,7 +7,7 @@ import
 
 proc Group*(courseGroup: CourseGroup, branchId: int): TagRef =
   buildHtml:
-    tDiv(class = fmt"font-semibold select-none cursor-ponter w-fit px-2 py-2 rounded-md bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] transition-all duration-300"):
+    tDiv(class = fmt"font-semibold select-none cursor-ponter w-fit px-2 py-2 {roundedSize} bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] transition-all duration-300"):
       { courseGroup.title }
       @click:
         {.emit: """//js
@@ -36,6 +36,16 @@ proc Courses*(branchId: int): TagRef =
                     Group(group, branchId)
                   elif search.val == "":
                     Group(group, branchId)
+        else:
+          tSection(class = "flex flex-col gap-4"):
+            for i in 0..4:
+              tDiv(class = fmt"flex flex-col gap-2 transition-all duration-[{(i+1) * 150}ms]"):
+                tDiv(class = "text-xl font-semibold"):
+                  "Курс: "
+                  { i+1 }
+                tDiv(class = "flex flex-wrap gap-2"):
+                  for j in 0..12:
+                    tDiv(class = fmt"font-semibold select-none cursor-ponter w-24 h-10 px-2 py-2 {roundedSize} skeleton-screen-primary transition-all duration-300")
       TeachersAnimation
       TimetableAnimation
       AnnouncementAnimation

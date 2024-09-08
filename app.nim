@@ -9,6 +9,7 @@ var
   useBlur: bool = false
   lastBranch = 0
   appTheme = "dark"
+  roundedSize = "rounded-md"
 
 
 when defined(export2android):
@@ -24,9 +25,12 @@ callback:
     lastBranch = loadInt("hapticx.ktc_hpx.lastBranch")
     useBlur = loadBool("hapticx.ktc_hpx.useBlur")
     appTheme = loadString("hapticx.ktc_hpx.appTheme")
+    roundedSize = loadString("hapticx.ktc_hpx.roundedSize")
     if appTheme == "":
       appTheme = "dark"
-    callJs("loadData", lastPage, lastBranch, useBlur, appTheme)
+    if roundedSize == "":
+      roundedSize = "rounded-md"
+    callJs("loadData", lastPage, lastBranch, useBlur, appTheme, roundedSize)
     {.gcsafe.}:
       when defined(export2android):
         runOnUiThread:
@@ -52,6 +56,9 @@ callback:
   
   proc saveUseBlur(val: bool) =
     save("hapticx.ktc_hpx.useBlur", val)
+  
+  proc saveRoundedSize(val: string) =
+    save("hapticx.ktc_hpx.roundedSize", val)
   
   proc saveAppTheme(val: string) =
     appTheme = val

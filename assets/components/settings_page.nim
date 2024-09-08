@@ -33,7 +33,7 @@ proc SettingsPage*(): TagRef =
         tDiv(class = "text-xl font-semibold"):
           "Тема:"
         tSelect(
-          class = fmt"flex w-full rounded-md bg-[{Primary}] text-[{Bg}] duration-300 transition-all "
+          class = fmt"flex w-full px-4 py-2 {roundedSize} bg-[{Primary}] text-[{Bg}] duration-300 transition-all "
         ):
           for i in themes:
             if appTheme.val == i[0]:
@@ -53,4 +53,24 @@ proc SettingsPage*(): TagRef =
             `val` = `ev`.target.value;
             """.}
             appTheme.set($val)
-                
+        tDiv(class = "text-xl font-semibold"):
+          "Закругленность:"
+        tDiv(class = "flex flex-col gap-4 items-center"):
+          tDiv(class = fmt"w-16 h-16 bg-[{Primary}] duration-300 transition-all {roundedSize}")
+          tDiv(class = "flex"):
+            tDiv(class = fmt"cursor-pointer select-none font-semibold px-6 py-2 {roundedL} duration-300 transition-all bg-[{Primary}] text-[{Bg}]"):
+              "md"
+              @click:
+                roundedSize.set("rounded-md")
+            tDiv(class = fmt"cursor-pointer select-none font-semibold px-6 py-2 duration-300 border-l border-r border-[{Bg}] transition-all bg-[{Primary}] text-[{Bg}]"):
+              "lg"
+              @click:
+                roundedSize.set("rounded-lg")
+            tDiv(class = fmt"cursor-pointer select-none font-semibold px-6 py-2 duration-300 border-l border-r border-[{Bg}] transition-all bg-[{Primary}] text-[{Bg}]"):
+              "xl"
+              @click:
+                roundedSize.set("rounded-xl")
+            tDiv(class = fmt"cursor-pointer select-none font-semibold px-6 py-2 {roundedR} duration-300 transition-all bg-[{Primary}] text-[{Bg}]"):
+              "2xl"
+              @click:
+                roundedSize.set("rounded-2xl")

@@ -8,7 +8,7 @@ import
 proc CheckBox*(val: State[bool], stmt: TagRef): TagRef =
   buildHtml:
     tDiv(class = "flex gap-4 text-lg font-semibold items-center cursor-pointer "):
-      tDiv(class = "w-6 h-6 flex items-center justify-center duration-300 transition-all rounded-md " & (
+      tDiv(class = fmt"w-6 h-6 flex items-center justify-center duration-300 transition-all {roundedSize} " & (
         if val:
           fmt"bg-[{Primary}] ring ring-[{Primary}]"
         else:

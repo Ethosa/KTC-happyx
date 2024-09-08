@@ -11,7 +11,7 @@ proc Branches*(branches: State[seq[Branch]]): TagRef =
       tDiv(class = "flex flex-col gap-4 transition-all duration-300"):
         for branch in branches:
           tDiv(
-            class = fmt"px-4 py-2 font-semibold truncate select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] rounded-lg transition-all duration-300"
+            class = fmt"px-4 py-2 font-semibold truncate select-none cursor-pointer bg-[{Primary}] hover:bg-[{Primary}CC] active:bg-[{Primary}AA] text-[{Bg}] {roundedSize} transition-all duration-300"
           ):
             { branch.title }
             @click:
